@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import facebook from '../../assets/images/facebook.png'
 import google from '../../assets/images/google.png'
 import logo from '../../assets/images/logo.png'
+import { loginUserApi } from "../../api/authAPI";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -21,15 +22,37 @@ const LoginForm = () => {
     password: Yup.string().min(6, "Minimum 6 characters").required("Required"),
   });
 
-  const handleSubmit = (values, { setSubmitting, resetForm }) => {
-    // Simulate login logic
-    setTimeout(() => {
-      toast.success(`Welcome back!`);
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+     try {
+      const response = await loginUserApi({
+        email: values.email,
+        password: values.password,
+      });
+
+      const token = response.data.token;
+
+      // Save token (localStorage or sessionStorage based on "remember" checkbox)
+      if (values.remember) {
+        localStorage.setItem("token", token);
+      } else {
+        sessionStorage.setItem("token", token);
+      }
+
+      toast.success("Welcome back!");
       resetForm();
+
+      setTimeout(() => {
+        setSubmitting(false);
+        navigate("/dashboard");
+      }, 1500);
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "Login failed. Please try again."
+      );
       setSubmitting(false);
-      setTimeout(() => navigate('/dashboard'), 1500); // redirect after toast
-    }, 1000);
+    }
   };
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">

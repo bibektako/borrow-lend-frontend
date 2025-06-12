@@ -5,14 +5,18 @@ import * as Yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import facebook from '../../assets/images/facebook.png'
-import google from '../../assets/images/google.png'
+import facebook from '../../assets/images/facebook.png';
+import google from '../../assets/images/google.png';
+import { registerUserApi } from '/src/api/authAPI.js';
+
 
 const SignupForm = () => {
   const navigate = useNavigate();
+
   const initialValues = {
     fullName: "",
     email: "",
+    phoneNo: "",
     password: "",
     terms: false,
   };
@@ -22,6 +26,9 @@ const SignupForm = () => {
     email: Yup.string()
       .email("Invalid email address")
       .required("Email is required"),
+    phoneNo: Yup.string()
+      .matches(/^[0-9]{10}$/, "Phone number must be 10 digits")
+      .required("Phone number is required"),
     password: Yup.string()
       .min(8, "Password must be at least 8 characters")
       .matches(/[0-9]/, "Password must contain a number")
@@ -33,12 +40,28 @@ const SignupForm = () => {
     ),
   });
 
-  const handleSubmit = (values, { resetForm }) => {
-    // Simulate API call
-    setTimeout(() => {
-      toast.success(`Account created for ${values.fullName}`);
+  const handleSubmit = async (values, { resetForm, setSubmitting }) => {
+    try {
+      const response = await registerUserApi({
+        username: values.fullName,
+        email: values.email,
+        phone: values.phoneNo,
+        password: values.password,
+      });
+
+      toast.success("Account created successfully!");
       resetForm();
-    }, 1000);
+
+      setTimeout(() => {
+        navigate("/signin"); // Redirect after signup
+      }, 1500);
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "Signup failed. Please try again."
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -87,6 +110,23 @@ const SignupForm = () => {
                 />
                 <ErrorMessage
                   name="email"
+                  component="div"
+                  className="text-sm text-red-500 mt-1"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Phone Number
+                </label>
+                <Field
+                  name="phoneNo"
+                  type="tel"
+                  placeholder="Enter your phone number"
+                  className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg"
+                />
+                <ErrorMessage
+                  name="phoneNo"
                   component="div"
                   className="text-sm text-red-500 mt-1"
                 />

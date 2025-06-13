@@ -126,7 +126,6 @@ const LoginForm = () => {
                   Remember me
                 </label>
               </div>
-
               <button
                 type="submit"
                 disabled={isSubmitting}
@@ -143,7 +142,6 @@ const LoginForm = () => {
           <span className="mx-2 text-sm text-gray-500">OR CONTINUE WITH</span>
           <div className="flex-grow h-px bg-gray-300" />
         </div>
-
         <div className="flex space-x-4">
           <button className="w-1/2 border py-2 rounded-lg flex items-center justify-center hover:bg-gray-100">
             <img src={google} alt="Google" className="w-5 h-5 mr-2" />

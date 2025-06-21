@@ -14,8 +14,8 @@ const AdminHeader = () => {
                     <NavLink to="/admin/verification" className={({ isActive }) => isActive ? activeLinkClass : inactiveLinkClass}>
                         Product Verification
                     </NavLink>
-                    <NavLink to="/admin/products" className={({ isActive }) => isActive ? activeLinkClass : inactiveLinkClass}>
-                        Products
+                    <NavLink to="/admin/items" className={({ isActive }) => isActive ? activeLinkClass : inactiveLinkClass}>
+                        Listed Items
                     </NavLink>
                     <NavLink to="/admin/categories" className={({ isActive }) => isActive ? activeLinkClass : inactiveLinkClass}>
                         Category

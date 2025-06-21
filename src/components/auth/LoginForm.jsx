@@ -4,9 +4,9 @@ import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import facebook from '../../assets/images/facebook.png'
-import google from '../../assets/images/google.png'
-import logo from '../../assets/images/logo.png'
+import facebook from "../../assets/images/facebook.png";
+import google from "../../assets/images/google.png";
+import logo from "../../assets/images/logo.png";
 import { loginUserApi } from "../../api/authAPI";
 
 const LoginForm = () => {
@@ -23,19 +23,28 @@ const LoginForm = () => {
   });
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-     try {
+    try {
       const response = await loginUserApi({
         email: values.email,
         password: values.password,
       });
 
-      const token = response.data.token;
+      const token = response.data?.token;
+      const user = response.data?.data;
+
+      if (!token || !user) {
+        toast.error("Invalid login response from the server.");
+        setSubmitting(false);
+        return;
+      }
 
       // Save token (localStorage or sessionStorage based on "remember" checkbox)
       if (values.remember) {
         localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
       } else {
         sessionStorage.setItem("token", token);
+        sessionStorage.setItem("user", JSON.stringify(user));
       }
 
       toast.success("Welcome back!");
@@ -43,7 +52,12 @@ const LoginForm = () => {
 
       setTimeout(() => {
         setSubmitting(false);
-        navigate("/dashboard");
+
+        if (user.role === "admin") {
+          navigate("/admin/categories");
+        } else {
+          navigate("/");
+        }
       }, 1500);
     } catch (error) {
       toast.error(
@@ -52,7 +66,6 @@ const LoginForm = () => {
       setSubmitting(false);
     }
   };
-  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -148,11 +161,7 @@ const LoginForm = () => {
             Google
           </button>
           <button className="w-1/2 border py-2 rounded-lg flex items-center justify-center hover:bg-gray-100">
-            <img
-              src={facebook}
-              alt="Facebook"
-              className="w-5 h-5 mr-2"
-            />
+            <img src={facebook} alt="Facebook" className="w-5 h-5 mr-2" />
             Facebook
           </button>
         </div>

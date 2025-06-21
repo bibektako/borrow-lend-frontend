@@ -29,7 +29,7 @@ const AppRouter = () => (
 
 
        <Route element={<AdminLayout />}>
-                <Route path="/admin" element={<Navigate to="admin/CategoryAdminPage.jsx" replace />} />
+                <Route path="/admin" element={<Navigate to="/admin/CategotyAdminPage" replace />} />
                 <Route path="/admin/categories" element={<CategoryPage />} />
                 <Route path="/admin/products" element={<ProductsPage />} />
                 <Route path="/admin/verification" element={<ProductVerificationPage />} />

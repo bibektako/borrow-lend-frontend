@@ -8,6 +8,7 @@ import {
 import { getCategoriesApi } from "../../api/categoryAPI"; // To fetch categories for dropdown
 import ItemModal from "../../components/ItemsModel"; // The modal you have (or will create)
 import { MoreVerticalIcon } from "../../components/ui/Icons"; // Optional for UI
+import { API_URL } from "../../api/api";
 
 const ItemPage = () => {
   const [items, setItems] = useState([]);
@@ -16,6 +17,7 @@ const ItemPage = () => {
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
   // Fetch categories once for modal category select
   const fetchCategories = useCallback(async () => {
@@ -178,7 +180,7 @@ const ItemPage = () => {
                             <img
                               key={idx}
                               className="h-12 w-12 rounded-lg object-cover"
-                              src={url}
+                              src={baseUrl + "/" + url}
                               alt={`${item.name} image ${idx + 1}`}
                               onError={(e) => {
                                 e.target.onerror = null;

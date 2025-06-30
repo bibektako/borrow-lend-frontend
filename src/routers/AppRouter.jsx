@@ -7,9 +7,9 @@ import Loginpage from "../pages/Loginpage";
 import AdminHeader from '../layouts/admin/AdminHeader';
 import CategoryPage from "../pages/admin/CategoryAdminPage";
 import ItemPage from "../pages/admin/ItemsAdminPage";
+import ProductVerificationPage from "../pages/admin/ProductVerificationPage";
 
 
-const ProductVerificationPage = () => <div className="p-8 container mx-auto"><h1 className="text-2xl font-bold">Product Verification Page</h1><p>Content for verifying products will go here.</p></div>;
 
 const AdminLayout = () => {
     return (
@@ -27,6 +27,7 @@ const AppRouter = () => (
       <Route path="*" element={<Navigate to="/" />} />
       <Route path="/signUp" element={<Signup_page />}></Route>
       <Route path="/signin" element={<Loginpage />}></Route>
+      
 
 
        <Route element={<AdminLayout />}>

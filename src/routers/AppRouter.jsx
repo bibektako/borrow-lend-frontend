@@ -8,6 +8,9 @@ import AdminHeader from '../layouts/admin/AdminHeader';
 import CategoryPage from "../pages/admin/CategoryAdminPage";
 import ItemPage from "../pages/admin/ItemsAdminPage";
 import ProductVerificationPage from "../pages/admin/ProductVerificationPage";
+import NormalUserRoute from "./NormalUserRoutes";
+import GuestRoute from "./GuestRoute";
+import Browse_Items_page from "../pages/Browse_Items_page";
 
 
 
@@ -24,7 +27,8 @@ const AppRouter = () => (
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<Homepage />} />
-      <Route path="*" element={<Navigate to="/" />} />
+      <Route path="*" element={<>404 Not Found</>} />
+      
       <Route path="/signUp" element={<Signup_page />}></Route>
       <Route path="/signin" element={<Loginpage />}></Route>
       
@@ -37,6 +41,11 @@ const AppRouter = () => (
                 <Route path="/admin/items" element={<ItemPage />} />
                 <Route path="/admin/verification" element={<ProductVerificationPage />} />
        </Route>
+
+      {/* <Route path="/user/*" element = {<NormalUserRoute/>}> */}
+      <Route path="/browse" element={<Browse_Items_page/>}/>
+      {/* </Route> */}
+      
     </Routes>
   </BrowserRouter>
 );

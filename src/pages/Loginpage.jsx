@@ -7,7 +7,11 @@ function Loginpage() {
   const { user } = useContext(AuthContext);
 
   if (user) {
-    return <Navigate to="/" replace />;
+    if (user.role === "admin") {
+      return <Navigate to="/admin" replace />;
+    } else {
+      return <Navigate to="/" replace />;
+    }
   }
   return (
     <div>

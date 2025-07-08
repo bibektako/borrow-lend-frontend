@@ -1,40 +1,87 @@
 import React, { useState, useEffect } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import { XIcon } from "../ui/Icons";
+import { useCreateCategory, useUpdateCategory } from "../../hooks/admin/useAdminCategory"; 
+import { toast } from "react-toastify";
 
-const CategoryModal = ({ isOpen, onClose, onSave, category }) => {
-  const [name, setName] = useState("");
-  const [image, setImage] = useState(null);
+const CategoryModal = ({ isOpen, onClose, category }) => {
+  // Hooks for creating and updating categories
+  const { mutate: createMutate, isPending: isCreating } = useCreateCategory();
+  const { mutate: updateMutate, isPending: isUpdating } = useUpdateCategory();
+
+  // Separate state for the image preview URL
   const [preview, setPreview] = useState("");
 
+  const validationSchema = Yup.object({
+    name: Yup.string().required("Category name is required"),
+    image: Yup.mixed()
+      .nullable()
+      .test(
+        "fileSize",
+        "File is too large (max 5MB)",
+        (value) => !value || (value && value.size <= 5 * 1024 * 1024)
+      ),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      image: null,
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      const formData = new FormData();
+      formData.append("name", values.name);
+      if (values.image) {
+        formData.append("image", values.image);
+      }
+
+      if (category) {
+        // --- UPDATE MODE ---
+        updateMutate(
+          { id: category._id, data: formData },
+          {
+            onSuccess: () => {
+              toast.success("Category updated successfully!");
+              onClose(); // Close modal on success
+            },
+          }
+        );
+      } else {
+        // --- CREATE MODE ---
+        createMutate(formData, {
+          onSuccess: () => {
+            toast.success("Category created successfully!");
+            onClose(); // Close modal on success
+          },
+        });
+      }
+    },
+  });
+
+  // Effect to populate form when modal opens or category changes
   useEffect(() => {
-    if (category) {
-      setName(category.name);
-      setPreview(category.image || '');
-      setImage(null); // Reset file input
-    } else {
-      setName("");
-      setPreview("");
-      setImage(null);
+    if (isOpen) {
+      if (category) {
+        // Edit mode: set initial values from the category prop
+        formik.setFieldValue("name", category.name);
+        setPreview(category.image || "");
+      } else {
+        // Create mode: reset the form
+        formik.resetForm();
+        setPreview("");
+      }
     }
   }, [category, isOpen]);
 
+  // Handle file input change and update formik state + preview
   const handleImageChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      setImage(file);
+    const file = e.currentTarget.files[0];
+    if (file) {
+      formik.setFieldValue("image", file);
       setPreview(URL.createObjectURL(file));
     }
-  };
-
-  const handleSave = () => {
-    if (!name) {
-      // In a real app, you would show a toast notification here
-      console.error("Please enter a category name.");
-      return;
-    }
-    const categoryData = { ...category, name };
-    onSave(categoryData, image); // pass image file as second param
-    onClose();
   };
 
   if (!isOpen) return null;
@@ -53,7 +100,9 @@ const CategoryModal = ({ isOpen, onClose, onSave, category }) => {
             <XIcon />
           </button>
         </div>
-        <form>
+
+        {/* Use formik's handleSubmit on the form tag */}
+        <form onSubmit={formik.handleSubmit}>
           <div className="mb-4">
             <label
               htmlFor="category-name"
@@ -63,13 +112,20 @@ const CategoryModal = ({ isOpen, onClose, onSave, category }) => {
             </label>
             <input
               id="category-name"
+              name="name" // Name attribute is important for formik
               type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur} // Track if the field was touched
               className="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="e.g., Winter Collection"
             />
+            {/* Display validation error */}
+            {formik.touched.name && formik.errors.name ? (
+              <div className="text-red-500 text-sm mt-1">{formik.errors.name}</div>
+            ) : null}
           </div>
+
           <div className="mb-6">
             <label
               htmlFor="category-image"
@@ -87,28 +143,36 @@ const CategoryModal = ({ isOpen, onClose, onSave, category }) => {
               )}
               <input
                 id="category-image"
+                name="image"
                 type="file"
-                onChange={handleImageChange}
+                onChange={handleImageChange} // Use custom handler
                 accept="image/*"
                 className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
               />
             </div>
+            {/* Display validation error */}
+            {formik.touched.image && formik.errors.image ? (
+              <div className="text-red-500 text-sm mt-1">{formik.errors.image}</div>
+            ) : null}
+          </div>
+          
+          <div className="flex justify-end space-x-4">
+            <button
+              type="button" // Prevent default form submission
+              onClick={onClose}
+              className="px-6 py-2 rounded-lg text-gray-700 bg-gray-200 hover:bg-gray-300"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit" // This button now submits the form
+              disabled={isCreating || isUpdating} // Disable when submitting
+              className="px-6 py-2 rounded-lg text-white bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400"
+            >
+              {isCreating || isUpdating ? "Saving..." : "Save"}
+            </button>
           </div>
         </form>
-        <div className="flex justify-end space-x-4">
-          <button
-            onClick={onClose}
-            className="px-6 py-2 rounded-lg text-gray-700 bg-gray-200 hover:bg-gray-300"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleSave}
-            className="px-6 py-2 rounded-lg text-white bg-blue-600 hover:bg-blue-700"
-          >
-            Save
-          </button>
-        </div>
       </div>
     </div>
   );

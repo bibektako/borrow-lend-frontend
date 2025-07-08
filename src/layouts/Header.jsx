@@ -42,6 +42,10 @@ const Header = () => {
           >
             Logout
           </button>
+          <>
+         {user.username}
+
+          </>
         </div>
       )}
       {!user && (

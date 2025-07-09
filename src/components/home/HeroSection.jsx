@@ -14,12 +14,12 @@ const HeroSection = () => {
           resources.
         </p>
         <div className="flex space-x-4">
-          <Link to="lend">
+          <Link to="start-lending">
             <button className="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700">
               Start Lending
             </button>
           </Link>
-          
+
           <Link to="browse">
             <button className="border border-blue-600 text-blue-600 px-5 py-2 rounded-md hover:bg-blue-50">
               Browse Items
@@ -38,4 +38,3 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
-

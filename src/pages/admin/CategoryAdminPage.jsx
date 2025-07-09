@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import CategoryTable from "../../components/categories/CategoryTable";
 import CategoryModal from "../../components/categories/CategoryModal";
-import DeleteModal from "../../components/ui/CategoryDeleteModel"; // Assuming you have this
-import { useAdminCategory, useDeleteCategory } from "../../hooks/admin/useAdminCategory"; // Using the hooks
+import DeleteModal from "../../components/ui/DeleteModel"; // Assuming you have this
+import {
+  useAdminCategory,
+  useDeleteCategory,
+} from "../../hooks/admin/useAdminCategory"; // Using the hooks
 
 const CategoryAdminApi = () => {
   // State for controlling modals

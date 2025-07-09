@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import ItemTable from '../../components/items/ItemsTableAdmin'; // Adjust path
-import ItemModal from '../../components/items/ItemModel';  // Adjust path
-import DeleteModal from '../../components/ui/CategoryDeleteModel'; // Adjust path
-import { useItems, useDeleteItem } from '../../hooks/useItem';
-import { useAdminCategory } from '../../hooks/admin/useAdminCategory';
+import React, { useState } from "react";
+import ItemTable from "../../components/items/ItemsTableAdmin"; // Adjust path
+import ItemModal from "../../components/items/ItemModel"; // Adjust path
+import DeleteModal from "../../components/ui/DeleteModel"; // Adjust path
+import { useItems, useDeleteItem } from "../../hooks/useItem";
+import { useAdminCategory } from "../../hooks/admin/useAdminCategory";
 
 const ItemPage = () => {
   // State for controlling modals
@@ -53,7 +53,10 @@ const ItemPage = () => {
         </div>
 
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+          <div
+            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
+            role="alert"
+          >
             {error.message}
           </div>
         )}

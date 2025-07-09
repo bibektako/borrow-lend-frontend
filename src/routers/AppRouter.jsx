@@ -11,6 +11,7 @@ import ProductVerificationPage from "../pages/admin/ProductVerificationPage";
 import NormalUserRoute from "./NormalUserRoutes";
 import GuestRoute from "./GuestRoute";
 import Browse_Items_page from "../pages/Browse_Items_page";
+import StartLendingPage from "../pages/StartLendingPage";
 
 
 
@@ -44,6 +45,7 @@ const AppRouter = () => (
 
       {/* <Route path="/user/*" element = {<NormalUserRoute/>}> */}
       <Route path="/browse" element={<Browse_Items_page/>}/>
+      <Route path="/start-lending" element={<StartLendingPage/>}/>
       {/* </Route> */}
       
     </Routes>

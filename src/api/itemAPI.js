@@ -32,3 +32,10 @@ export const deleteItemApi = (id, token) =>
       Authorization: `Bearer ${token}`,
     },
   });
+
+export const verifyItemApi = (id, token) =>
+  axios.patch(`${resource}/${id}/verify`, {}, { 
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });

@@ -6,8 +6,10 @@ import {
   useAdminCategory,
   useDeleteCategory,
 } from "../../hooks/admin/useAdminCategory"; // Using the hooks
+import { ToastContainer, toast } from "react-toastify"; // Import toast
+import "react-toastify/dist/ReactToastify.css";
 
-const CategoryAdminApi = () => {
+const CategoryAdminPage = () => {
   // State for controlling modals
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
@@ -15,7 +17,7 @@ const CategoryAdminApi = () => {
 
   // --- Data Fetching and Mutations via TanStack Query Hooks ---
   const { categories, isLoading, error } = useAdminCategory();
-  const { mutate: deleteCategoryMutate } = useDeleteCategory();
+  const { mutate: deleteCategoryMutate, isPending: isDeleting } = useDeleteCategory();
 
   // --- Modal Handlers ---
   const handleAddClick = () => {
@@ -35,18 +37,25 @@ const CategoryAdminApi = () => {
   const handleConfirmDelete = () => {
     if (deleteId) {
       deleteCategoryMutate(deleteId, {
-        onSuccess: () => {
+        onSuccess: (data) => {
+          // Add the toast notification here for direct feedback
+          toast.success(data?.message || "Category deleted successfully!");
           setDeleteId(null); // Close the modal on success
         },
+        onError: (err) => {
+          // Optionally handle specific errors here if needed
+          toast.error(err?.message || "Failed to delete category.");
+        }
       });
     }
   };
 
   return (
     <main className="flex-1 bg-gray-100 p-6 md:p-8">
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
       <div className="container mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">Categories</h2>
+          <h2 className="text-2xl font-bold text-gray-800">Manage Categories</h2>
           <button
             onClick={handleAddClick}
             className="px-5 py-2.5 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
@@ -85,6 +94,7 @@ const CategoryAdminApi = () => {
         isOpen={!!deleteId}
         onClose={() => setDeleteId(null)}
         onConfirm={handleConfirmDelete}
+        isDeleting={isDeleting}
         title="Delete Category"
         description="Are you sure you want to delete this category? This action cannot be undone."
       />
@@ -92,4 +102,4 @@ const CategoryAdminApi = () => {
   );
 };
 
-export default CategoryAdminApi;
+export default CategoryAdminPage;

@@ -7,11 +7,12 @@ import Loginpage from "../pages/Loginpage";
 import AdminHeader from '../layouts/admin/AdminHeader';
 import CategoryPage from "../pages/admin/CategoryAdminPage";
 import ItemPage from "../pages/admin/ItemsAdminPage";
-import ProductVerificationPage from "../pages/admin/ProductVerificationPage";
+import ProductVerificationPage from "../pages/admin/ItemVerificationPage";
 import NormalUserRoute from "./NormalUserRoutes";
 import GuestRoute from "./GuestRoute";
 import Browse_Items_page from "../pages/Browse_Items_page";
 import StartLendingPage from "../pages/StartLendingPage";
+import ItemVerificationPage from "../pages/admin/ItemVerificationPage";
 
 
 
@@ -40,7 +41,7 @@ const AppRouter = () => (
 
                 <Route path="/admin/categories" element={<CategoryPage />} />
                 <Route path="/admin/items" element={<ItemPage />} />
-                <Route path="/admin/verification" element={<ProductVerificationPage />} />
+                <Route path="/admin/verification" element={<ItemVerificationPage />} />
        </Route>
 
       {/* <Route path="/user/*" element = {<NormalUserRoute/>}> */}

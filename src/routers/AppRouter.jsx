@@ -13,6 +13,7 @@ import GuestRoute from "./GuestRoute";
 import Browse_Items_page from "../pages/Browse_Items_page";
 import StartLendingPage from "../pages/StartLendingPage";
 import ItemVerificationPage from "../pages/admin/ItemVerificationPage";
+import ItemDetailPage from "../pages/ItemsDetailPage";
 
 
 
@@ -47,6 +48,7 @@ const AppRouter = () => (
       {/* <Route path="/user/*" element = {<NormalUserRoute/>}> */}
       <Route path="/browse" element={<Browse_Items_page/>}/>
       <Route path="/start-lending" element={<StartLendingPage/>}/>
+      <Route path="/item/:id" element={<ItemDetailPage />} />
       {/* </Route> */}
       
     </Routes>

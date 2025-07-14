@@ -4,10 +4,9 @@ import {
   createItemApi,
   updateItemApi,
   deleteItemApi,
-} from "../api/itemAPI"
+} from "../api/itemAPI";
 
-
-export const getItemsService = async (filters = {}) => {
+export const getItemsService = async (filters) => {
   try {
     const response = await getItemsApi(filters);
     return response.data;

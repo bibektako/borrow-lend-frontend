@@ -2,19 +2,16 @@ import axios from "./api";
 
 const resource = "/items";
 
-
-
-export const getItemsApi = (filters = {}) =>
+export const getItemsApi = (filters) =>
   axios.get(resource, { params: filters });
 
-export const getItemByIdApi = (id) =>
-  axios.get(`${resource}/${id}`);
+export const getItemByIdApi = (id) => axios.get(`${resource}/${id}`);
 
 export const createItemApi = (formData, token) =>
   axios.post(resource, formData, {
     headers: {
       "Content-Type": "multipart/form-data",
-      Authorization: `Bearer ${token}`, 
+      Authorization: `Bearer ${token}`,
     },
   });
 
@@ -22,7 +19,7 @@ export const updateItemApi = (id, formData, token) =>
   axios.put(`${resource}/${id}`, formData, {
     headers: {
       "Content-Type": "multipart/form-data",
-      Authorization: `Bearer ${token}`, 
+      Authorization: `Bearer ${token}`,
     },
   });
 
@@ -34,8 +31,12 @@ export const deleteItemApi = (id, token) =>
   });
 
 export const verifyItemApi = (id, token) =>
-  axios.patch(`${resource}/${id}/verify`, {}, { 
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  axios.patch(
+    `${resource}/${id}/verify`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );

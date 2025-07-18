@@ -4,7 +4,7 @@ const resource = "/admin/category";
 
 export const getAllCategoriesApi = () => axios.get(resource);
 
-
+export const getCategoriesApi = () => axios.get(resource);
 export const createCategoryApi = (formData) =>
   axios.post(resource, formData, {
     headers: {

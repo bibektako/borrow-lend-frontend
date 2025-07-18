@@ -18,7 +18,9 @@ import Browse_Items_page from "../pages/Browse_Items_page";
 import StartLendingPage from "../pages/StartLendingPage";
 import ItemVerificationPage from "../pages/admin/ItemVerificationPage";
 import ItemDetailPage from "../pages/ItemsDetailPage";
+import MyItemsPage from "../pages/MyItemspage";
 import Header from "../layouts/Header";
+
 
 const AdminLayout = () => {
   return (
@@ -50,11 +52,12 @@ const AppRouter = () => (
         <Route path="/admin/verification" element={<ItemVerificationPage />} />
       </Route>
 
-      {/* <Route path="/user/*" element = {<NormalUserRoute/>}> */}
       <Route path="/browse" element={<Browse_Items_page />} />
+      <Route path="/my-items" element={<MyItemsPage />} />
+
       <Route path="/start-lending" element={<StartLendingPage />} />
+
       <Route path="/item/:id" element={<ItemDetailPage />} />
-      {/* </Route> */}
     </Routes>
   </BrowserRouter>
 );

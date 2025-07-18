@@ -1,4 +1,3 @@
-// src/components/Header.js
 
 import { useContext, useState } from "react";
 import { Search, Menu, X } from "lucide-react";
@@ -35,7 +34,6 @@ const Header = () => {
 
   return (
     <header className="relative flex items-center justify-between gap-6 px-6 py-3 bg-white shadow-md">
-      {/* Left Side: Logo */}
       <NavLink
         to="/"
         className="flex items-center gap-2 flex-shrink-0 z-10"
@@ -47,12 +45,10 @@ const Header = () => {
         </span>
       </NavLink>
 
-      {/* Center: Desktop Navigation Links */}
       <div className="flex-1 justify-center hidden md:flex">
         <NavLinks user={user} />
       </div>
 
-      {/* Right Side: Desktop Search and User Actions */}
       <div className="hidden md:flex items-center gap-4 flex-shrink-0">
         <div className="relative">
           <input
@@ -88,23 +84,19 @@ const Header = () => {
         )}
       </div>
 
-      {/* Mobile Menu Button */}
       <div className="md:hidden z-10">
         <button onClick={toggleMenu}>
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
-      {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="absolute top-0 left-0 w-full h-screen bg-white md:hidden z-0 pt-20">
           <div className="flex flex-col items-center p-4 gap-6">
-            {/* Mobile Navigation Links */}
             <NavLinks user={user} onLinkClick={() => setIsMenuOpen(false)} />
 
             <div className="w-full max-w-xs h-px bg-slate-200"></div>
 
-            {/* Mobile User Actions */}
             {user ? (
               <div className="flex flex-col items-center gap-4 w-full">
                 <ProfileDropdown user={user} onLogout={handleLogout} />

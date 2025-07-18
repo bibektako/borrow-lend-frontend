@@ -2,10 +2,12 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   getItemsService,
   getItemByIdService,
+  getMyItemsService,
   createItemService,
   updateItemService,
   deleteItemService,
 } from "../services/itemService";
+import { getAllCategoryService } from "../services/admin/categoryService";
 import { toast } from "react-toastify";
 import { useContext } from "react";
 import { AuthContext } from "../auth/Authprovider";
@@ -22,6 +24,30 @@ export const useItems = (filters = {}) => {
     error,
     isError,
   };
+};
+
+export const useMyItems = () => {
+  const { data, isLoading, error, isError } = useQuery({
+    queryKey: ["my-items"],
+    queryFn: getMyItemsService,
+  });
+  return {
+    items: data?.data || [],
+    isLoading,
+    error,
+    isError,
+  };
+};
+export const useCategories = () => {
+    const { data, isLoading, error } = useQuery({
+        queryKey: ["categories"],
+        queryFn: getAllCategoryService,
+    });
+    return {
+        categories: data?.data?.categories || [],
+        isLoadingCategories: isLoading,
+        errorCategories: error,
+    };
 };
 
 export const useItemById = (id) => {
@@ -47,7 +73,6 @@ export const useCreateItem = () => {
     mutationFn: (formData) => createItemService(formData, token),
     onSuccess: (data) => {
       toast.success(data?.message || "Item created successfully!");
-      // Invalidate the main 'items' query to refetch the list
       queryClient.invalidateQueries({ queryKey: ["items"] });
     },
     onError: (error) => {

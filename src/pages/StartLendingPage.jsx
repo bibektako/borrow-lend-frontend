@@ -14,22 +14,15 @@ const StartLendingPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // This effect runs when the component mounts or when the user status changes.
-    // We check for `null` which indicates the initial auth check is complete and there's no user.
     if (user === null) {
       toast.error("You need to log in to list an item.");
-      // Redirect to the login page after a short delay to allow the user to see the message.
       const timer = setTimeout(() => {
         navigate('/signin');
       }, 1500);
       
-      // Cleanup the timer if the component unmounts before the redirect happens.
       return () => clearTimeout(timer);
     }
   }, [user, navigate]);
-
-  // While waiting for the user status or during redirection, show a simple loading/placeholder state.
-  // This prevents the form from flashing on the screen for users who are not logged in.
   if (!user) {
     return (
       <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -43,7 +36,6 @@ const StartLendingPage = () => {
     );
   }
 
-  // If the user is logged in, render the full page content.
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Header />

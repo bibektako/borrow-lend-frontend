@@ -1,6 +1,7 @@
 import {
   getItemsApi,
   getItemByIdApi,
+  getMyItemsApi,
   createItemApi,
   updateItemApi,
   deleteItemApi,
@@ -15,12 +16,21 @@ export const getItemsService = async (filters) => {
   }
 };
 
+
 export const getItemByIdService = async (id) => {
   try {
     const response = await getItemByIdApi(id);
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: "Failed to fetch item details" };
+  }
+};
+export const getMyItemsService = async () => {
+  try {
+    const response = await getMyItemsApi();
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { message: "Failed to fetch your items" };
   }
 };
 

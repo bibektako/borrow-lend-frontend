@@ -7,6 +7,9 @@ export const getItemsApi = (filters) =>
 
 export const getItemByIdApi = (id) => axios.get(`${resource}/${id}`);
 
+
+export const getMyItemsApi = () => axios.get(`${resource}/my-items`);
+
 export const createItemApi = (formData, token) =>
   axios.post(resource, formData, {
     headers: {

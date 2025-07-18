@@ -1,9 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-// UPDATED: Using an absolute path for a more robust import.
 import { getBackendImageUrl } from '../../../utils/backend-image';
 
-// --- Icon Components ---
 const LocationPinIcon = ({ className = "w-5 h-5" }) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className}>
     <path fillRule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 005.16-4.057l-1.18-1.18a15.475 15.475 0 01-4.022 3.055l-2.296 1.532a1.125 1.125 0 01-1.344 0l-2.296-1.532a15.475 15.475 0 01-4.022-3.055l-1.18 1.18a16.975 16.975 0 005.16 4.057l.071.041zM12 1.5a6.75 6.75 0 100 13.5 6.75 6.75 0 000-13.5z" clipRule="evenodd" />
@@ -17,7 +15,6 @@ const StarIcon = ({ className = "w-5 h-5", filled = false }) => (
   </svg>
 );
 
-// --- Single Item Card Component ---
 const SingleItemCard = ({ item }) => {
   const { _id, name, category, borrowingPrice, imageUrls, location, rating, reviewCount } = item;
 
@@ -33,7 +30,6 @@ const SingleItemCard = ({ item }) => {
   return (
     <Link to={`/item/${_id}`} className="block group">
       <div className="w-full rounded-2xl overflow-hidden bg-white font-sans border border-gray-200 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
-        {/* Image Section */}
         <div className="relative h-56 w-full">
           <img 
             src={getBackendImageUrl(imageUrls?.[0])}
@@ -52,17 +48,14 @@ const SingleItemCard = ({ item }) => {
           </div>
         </div>
         
-        {/* Content Section */}
         <div className="p-4">
           <h3 className="text-lg font-bold text-gray-800 truncate">{name}</h3>
           
-          {/* Location Info */}
           <div className="flex items-center text-gray-500 mt-2 text-sm">
             <LocationPinIcon className="w-4 h-4 mr-1.5 flex-shrink-0 text-gray-400" />
             <span className="truncate">{location || 'Thimi, Bhaktapur'}</span>
           </div>
           
-          {/* Rating Info */}
           <div className="flex items-center mt-3">
             <div className="flex items-center space-x-0.5">
               {renderStars()}

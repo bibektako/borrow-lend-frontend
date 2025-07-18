@@ -1,4 +1,3 @@
-
 import { useContext, useState } from "react";
 import { Search, Menu, X } from "lucide-react";
 import { useNavigate, NavLink } from "react-router-dom";
@@ -12,20 +11,29 @@ const Header = () => {
   const { user, logout } = useContext(AuthContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearch = (e) => {
+    if (e.key === "Enter" && searchTerm.trim() !== "") {
+      navigate(`/browse?search=${searchTerm.trim()}`);
+      setSearchTerm("");
+    }
+  };
+
   const handleLogout = () => {
     logout();
     navigate("/");
-    setIsMenuOpen(false); 
+    setIsMenuOpen(false);
   };
 
   const handleSignIn = () => {
     navigate("/signin");
-    setIsMenuOpen(false); 
+    setIsMenuOpen(false);
   };
 
   const handleRegister = () => {
     navigate("/signUp");
-    setIsMenuOpen(false); 
+    setIsMenuOpen(false);
   };
 
   const toggleMenu = () => {
@@ -54,6 +62,9 @@ const Header = () => {
           <input
             type="text"
             placeholder="Search..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={handleSearch}
             className="w-full pl-10 pr-4 py-2 text-sm border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -118,11 +129,13 @@ const Header = () => {
               </div>
             )}
 
-            {/* Mobile Search Bar */}
             <div className="relative w-full max-w-xs mt-4">
               <input
                 type="text"
                 placeholder="Search..."
+                // value={searchTerm}
+                // onChange={(e) => setSearchTerm(e.target.value)}
+                // onKeyDown={handleSearch}
                 className="w-full pl-10 pr-4 py-2 text-sm border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />

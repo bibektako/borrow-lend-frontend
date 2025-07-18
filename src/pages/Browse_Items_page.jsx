@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useMemo } from "react";
 import Header from "../layouts/Header";
+import { useSearchParams } from "react-router-dom";
 import FilterSidebar from "../components/user/Filter_Sidebar_component";
 import ItemCard from "../components/user/ItemsCard";
 import { useItems } from "../hooks/useItem";
@@ -57,15 +58,22 @@ export default function Browse_Items_page() {
   const [filters, setFilters] = useState({});
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const itemsPerPage = 8;
+  const [searchParams] = useSearchParams();
+  const searchTerm = searchParams.get("search");
 
-  const queryFilters = useMemo(
-    () => ({
+  const queryFilters = useMemo(() => {
+    const allFilters = {
       ...filters,
       page: currentPage,
       limit: itemsPerPage,
-    }),
-    [filters, currentPage, itemsPerPage]
-  );
+    };
+
+    if (searchTerm) {
+      allFilters.search = searchTerm;
+    }
+
+    return allFilters;
+  }, [filters, currentPage, itemsPerPage]);
 
   const { items, isLoading, error, totalPages } = useItems(queryFilters);
   console.log("Items:", items);
@@ -154,6 +162,10 @@ export default function Browse_Items_page() {
               <p className="text-gray-400 mt-2">
                 Try adjusting your filters to find what you're looking for.
               </p>
+              {searchTerm && (
+                <p className="text-gray-500 mt-1">for "{searchTerm}"</p>
+              )}
+              <p className="text-gray-400 mt-2"></p>
             </div>
           )}
 

@@ -3,6 +3,7 @@ import { getMyItemsApi, deleteItemApi } from '../api/itemAPI';
 import { getCategoriesApi } from '../api/admin/categoryAPI'
 import UserItemCard from '../components/user/User_Items_card';
 import ItemModal from '../components/items/ItemModel';
+import Header from '../layouts/Header';
 
 const MyItemsPage = () => {
     const [userItems, setUserItems] = useState([]);
@@ -85,6 +86,7 @@ const MyItemsPage = () => {
 
     return (
         <div className="w-full">
+            <Header/>
             <div className="flex justify-between items-center bg-white p-4 rounded-lg shadow-sm mb-8 border">
                 <div>
                     <h1 className="text-2xl font-bold text-gray-900">My Listed Items</h1>

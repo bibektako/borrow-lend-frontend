@@ -20,7 +20,6 @@ instance.interceptors.request.use(
       token = sessionStorage.getItem("token");
     }
 
-    // 3. If a token is found in either location, attach it to the header.
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
       console.log("Token found and attached to request header.");

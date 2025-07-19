@@ -1,7 +1,23 @@
 import React from 'react';
 import { ShieldCheck, Calendar } from 'lucide-react';
+import { useCreateBorrowRequest } from '../../../hooks/useBorrow'; 
+import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { AuthContext } from '../../../auth/Authprovider';
+
 
 const BookingPanel = ({ item }) => {
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { mutate: createBorrowRequest, isPending } = useCreateBorrowRequest();
+
+  const handleBookNow = () => {
+    if (!user) {
+      navigate('/signin');
+      return;
+    }
+    createBorrowRequest(item._id);
+  };
   return (
     <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-24">
       <div className="flex justify-between items-baseline">
@@ -10,8 +26,12 @@ const BookingPanel = ({ item }) => {
       </div>
       <p className="text-xs text-gray-400 mt-1">Original: Rs 85,000</p>
       
-      <button className="w-full mt-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700">
-        Book Now
+      <button 
+        onClick={handleBookNow}
+        disabled={isPending || item.status !== 'available'}
+        className="w-full mt-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+      >
+        {isPending ? 'Sending Request...' : (item.status !== 'available' ? 'Unavailable' : 'Book Now')}
       </button>
       <button className="w-full mt-3 py-3 border border-gray-300 rounded-lg text-sm font-semibold hover:bg-gray-100">
         Add to Wishlist

@@ -122,16 +122,12 @@ const SingleItemCard = ({ item }) => {
               ${borrowingPrice?.toFixed(2)}
               <span className="text-sm font-medium text-gray-500">/day</span>
             </p>
-            <button
+           <button
               onClick={handleBorrowClick}
-              disabled={isPending || status !== "available"}
+              disabled={isPending} 
               className="px-4 py-1.5 text-sm font-semibold text-blue-600 bg-blue-100 rounded-full transition-all duration-300 group-hover:bg-blue-600 group-hover:text-white disabled:bg-gray-200 disabled:text-gray-500 disabled:cursor-not-allowed"
             >
-              {isPending
-                ? "Requesting..."
-                : status !== "available"
-                ? "Unavailable"
-                : "Borrow"}
+              {isPending ? 'Requesting...' : 'Borrow'}
             </button>
           </div>
         </div>

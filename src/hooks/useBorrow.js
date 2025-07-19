@@ -43,18 +43,20 @@ export const useCreateBorrowRequest = () => {
 };
 
 export const useUpdateBorrowRequest = () => {
-  const queryClient = useQueryClient();
-  const { token } = useContext(AuthContext);
+    const queryClient = useQueryClient();
+    const { token } = useContext(AuthContext);
 
-  return useMutation({
-    mutationFn: ({ requestId, status }) =>
-      updateBorrowRequestService(requestId, status, token),
-    onSuccess: (data) => {
-      toast.success(data?.message || "Request updated!");
-      queryClient.invalidateQueries({ queryKey: ["borrow-requests"] });
-    },
-    onError: (error) => {
-      toast.error(error?.message || "Failed to update request.");
-    },
-  });
+    return useMutation({
+        mutationFn: ({ requestId, status }) => updateBorrowRequestService(requestId, status, token),
+        onSuccess: (data) => {
+            toast.success(data?.message || "Request updated!");
+            
+            queryClient.invalidateQueries({ queryKey: ['borrow-requests'] }); 
+            queryClient.invalidateQueries({ queryKey: ['items'] });           
+            queryClient.invalidateQueries({ queryKey: ['item'] });            
+        },
+        onError: (error) => {
+            toast.error(error?.message || "Failed to update request.");
+        }
+    });
 };

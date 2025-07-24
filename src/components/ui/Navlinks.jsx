@@ -59,6 +59,7 @@ export const NavLinks = ({ user, onLinkClick }) => {
           {link.label}
         </NavLink>
       ))}
+      
     </nav>
   );
 };

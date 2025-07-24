@@ -15,13 +15,10 @@ import google from "../../assets/images/google.png";
 const SignupForm = () => {
   const navigate = useNavigate();
 
-  // 1. Use the custom hook for registration mutation
   const { mutate, isPending } = useRegisterUserTan();
 
-  // 2. State for password visibility
   const [showPassword, setShowPassword] = useState(false);
 
-  // 3. Validation schema with Yup
   const validationSchema = Yup.object({
     fullName: Yup.string().required("Full name is required"),
     email: Yup.string()
@@ -60,7 +57,6 @@ const SignupForm = () => {
         password: values.password,
       };
 
-      // Call mutate and handle success side-effects here
       mutate(apiData, {
         onSuccess: () => {
           resetForm();

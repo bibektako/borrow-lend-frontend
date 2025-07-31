@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNotifications } from '../../hooks/useNotifications'; // Adjust path if needed
+import { useNotifications } from '../../hooks/useNotifications'; 
 import { Link } from 'react-router-dom';
 import { Bell, CheckCheck } from 'lucide-react';
 

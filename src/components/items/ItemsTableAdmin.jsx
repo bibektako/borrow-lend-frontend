@@ -75,7 +75,7 @@ const ItemTable = ({ items, isLoading, onEdit, onDelete, currentPage, totalPages
               <tr key={item._id} className="hover:bg-gray-50">
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{item.name}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{item.category?.name || "N/A"}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${item.borrowingPrice?.toFixed(2)}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">Rs{item.borrowingPrice?.toFixed(2)}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex space-x-2">
                     {item.imageUrls?.slice(0, 3).map((url, idx) => (

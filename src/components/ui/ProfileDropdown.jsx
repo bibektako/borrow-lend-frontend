@@ -35,8 +35,6 @@ export const ProfileDropdown = ({ user, onLogout }) => {
   };
 
   return (
-    // --- THIS IS THE FIX ---
-    // Added 'z-50' to ensure this component stacks on top of others in the header.
     <div className="relative z-50" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}

@@ -140,7 +140,7 @@ const SingleItemCard = ({ item }) => {
           {/* Card Footer */}
           <div className="flex justify-between items-center pt-4 mt-4 border-t border-gray-100">
             <p className="text-lg font-bold text-gray-900">
-              ${borrowingPrice?.toFixed(2)}
+              Rs{borrowingPrice?.toFixed(2)}
               <span className="text-sm font-normal text-gray-500">/day</span>
             </p>
             <button

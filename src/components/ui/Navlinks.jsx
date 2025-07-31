@@ -32,11 +32,10 @@ const guestLinks = [
 
 export const NavLinks = ({ user, onLinkClick }) => {
   const { requests } = useBorrowRequests();
-  const { bookmarkCount } = useBookmarks(); // 3. Get the bookmark count
+  const { bookmarkCount } = useBookmarks(); 
   const location = useLocation();
   const [newRentalsCount, setNewRentalsCount] = useState(0);
 
-  // Update count based on pending requests
   useEffect(() => {
     if (requests && requests.length > 0) {
       const pendingCount = requests.filter(

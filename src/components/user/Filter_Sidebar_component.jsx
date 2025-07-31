@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useCategories } from "../../hooks/useCatagory";
 
-// --- Icon Components ---
 import { MapPin, Star, AlertCircle } from "lucide-react";
 
 const StarIcon = ({ filled, onHover, onLeave, onClick }) => (
@@ -34,7 +33,6 @@ const FilterCheckbox = ({ id, label, checked, onChange }) => (
   </div>
 );
 
-// A skeleton loader for the category section
 const CategoryFilterSkeleton = () => (
   <div className="space-y-3 animate-pulse">
     {[...Array(4)].map((_, i) => (
@@ -60,7 +58,6 @@ const FilterSidebar = ({ onFilterChange, initialFilters = {} }) => {
     setSelectedCategories((prev) => ({ ...prev, [id]: checked }));
   };
   
-  // Cleans up the filters object before passing it to the parent
   const cleanupFilters = (filters) => {
     const cleaned = { ...filters };
     if (!cleaned.location) delete cleaned.location;
@@ -88,7 +85,7 @@ const FilterSidebar = ({ onFilterChange, initialFilters = {} }) => {
     setSelectedCategories({});
     setPriceRange(5000);
     setRating(0);
-    onFilterChange({}); // Pass an empty object to clear all filters
+    onFilterChange({}); 
   };
 
   return (
@@ -149,12 +146,11 @@ const FilterSidebar = ({ onFilterChange, initialFilters = {} }) => {
             className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
           />
           <div className="flex justify-between text-sm text-gray-600 mt-2">
-            <span>$0</span>
-            <span className="font-semibold text-blue-600">${priceRange}{priceRange >= 5000 ? '+' : ''}</span>
+            <span>Rs0</span>
+            <span className="font-semibold text-blue-600">Rs{priceRange}{priceRange >= 5000 ? '+' : ''}</span>
           </div>
         </div>
 
-        {/* Rating Filter */}
         <div>
           <h3 className="text-md font-semibold text-gray-800 mb-3">Minimum Rating</h3>
           <div className="flex justify-start space-x-1">

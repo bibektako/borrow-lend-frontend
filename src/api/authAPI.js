@@ -11,3 +11,10 @@ export const addBookmarkApi = (itemId) => axios.post(`/auth/bookmarks/${itemId}`
 
 
 export const removeBookmarkApi = (itemId) => axios.delete(`/auth/bookmarks/${itemId}`);
+
+export const resetPasswordApi = (token, passwordData) => {
+  return axios.put(`/auth/reset-password/${token}`, passwordData);
+};
+export const forgotPasswordApi = (emailData) => {
+  return axios.post('/auth/forgot-password', emailData);
+};

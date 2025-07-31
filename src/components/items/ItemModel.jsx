@@ -129,7 +129,7 @@ const ItemModal = ({ isOpen, onClose, item, categories }) => {
             {formik.touched.description && formik.errors.description ? <div className="text-red-500 text-sm mt-1">{formik.errors.description}</div> : null}
           </div>
           <div>
-            <label htmlFor="borrowingPrice" className="block text-sm font-semibold text-gray-700 mb-1">Borrowing Price ($)</label>
+            <label htmlFor="borrowingPrice" className="block text-sm font-semibold text-gray-700 mb-1">Borrowing Price (Rs)</label>
             <input id="borrowingPrice" type="number" step="0.01" {...formik.getFieldProps('borrowingPrice')} className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"/>
             {formik.touched.borrowingPrice && formik.errors.borrowingPrice ? <div className="text-red-500 text-sm mt-1">{formik.errors.borrowingPrice}</div> : null}
           </div>

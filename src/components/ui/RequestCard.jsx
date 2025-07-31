@@ -18,7 +18,6 @@ const RequestCard = ({ request, isOwner }) => {
       </div>
     );
   }
-  // --- END OF FIX ---
 
 
   const handleUpdate = (status) => {
@@ -34,9 +33,7 @@ const RequestCard = ({ request, isOwner }) => {
   };
 
   const renderActionButtons = () => {
-    // This logic is already good and doesn't need to change.
-    // ...
-    // --- Logic for Item Owners ---
+
     if (isOwner) {
       if (request.status === "pending") {
         return (
@@ -76,7 +73,6 @@ const RequestCard = ({ request, isOwner }) => {
       }
     }
 
-    // --- Logic for Borrowers ---
     if (!isOwner) {
       if (request.status === "pending") {
         return (
@@ -92,7 +88,7 @@ const RequestCard = ({ request, isOwner }) => {
               Payment Required
             </h3>
             <button
-              // Add your payment logic here
+              // Add  payment 
               onClick={() => alert("Redirecting to payment...")}
               disabled={isPending}
               className="w-full bg-green-500 text-white font-semibold py-2 rounded-lg hover:bg-green-600 disabled:bg-gray-400"
@@ -118,11 +114,9 @@ const RequestCard = ({ request, isOwner }) => {
     );
   };
 
-  // The rest of the component can now safely assume `request.item` exists.
   return (
     <div className="bg-white p-4 rounded-lg shadow-md border flex flex-col sm:flex-row gap-4">
       <img
-        // For extra safety, we can still use optional chaining here.
         src={getBackendImageUrl(request.item?.imageUrls?.[0])}
         alt={request.item?.name || 'Item image'}
         className="w-full sm:w-32 h-32 object-cover rounded-md"
@@ -131,7 +125,7 @@ const RequestCard = ({ request, isOwner }) => {
         <div className="flex justify-between items-start">
           <div>
             <Link
-              to={`/item/${request.item._id}`} // This is now safe because of the check at the top
+              to={`/item/${request.item._id}`} 
               className="font-bold text-lg text-gray-800 hover:underline"
             >
               {request.item.name}

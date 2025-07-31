@@ -1,26 +1,22 @@
-import React from "react";
-import  { useState } from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
+import {  Link } from "react-router-dom";
 
 
 import { useLoginUser } from "../../hooks/useLoginUser"; 
 
-// --- UI Assets ---
 import facebook from "../../assets/images/facebook.png";
 import google from "../../assets/images/google.png";
 import logo from "../../assets/images/logo.png";
 
 const LoginForm = () => {
-  const navigate = useNavigate();
   
   const [showPassword, setShowPassword] = useState(false);
   const { mutate, isPending } = useLoginUser();
 
-  // Validation schema with Yup
   const validationSchema = Yup.object({
     email: Yup.string().email("Invalid email address").required("Required"),
     password: Yup.string().min(6, "Minimum 6 characters").required("Required"),
@@ -35,7 +31,6 @@ const LoginForm = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      // On valid submission, call the mutate function
       mutate(values);
     },
   });
@@ -121,10 +116,13 @@ const LoginForm = () => {
                 {formik.errors.password}
               </div>
             ) : null}
-             <div className="text-right mt-1">
-               <a href="#" className="text-sm text-blue-600 hover:underline">
+            
+            {/* --- 2. THE CHANGE IS HERE --- */}
+            {/* We replace the <a> tag with a <Link> component */}
+            <div className="text-right mt-1">
+               <Link to="/forgot-password" className="text-sm text-blue-600 hover:underline">
                  Forgot password?
-               </a>
+               </Link>
              </div>
           </div>
 
@@ -170,13 +168,12 @@ const LoginForm = () => {
 
         <p className="mt-4 text-center text-sm text-gray-600">
           Don’t have an account?{" "}
-          <a
-            href="#"
+          <Link
+            to="/signUp"
             className="text-blue-600 hover:underline"
-            onClick={() => navigate("/signUp")}
           >
             Register
-          </a>
+          </Link>
         </p>
       </div>
     </div>

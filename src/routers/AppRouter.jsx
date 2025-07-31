@@ -22,6 +22,9 @@ import MyItemsPage from "../pages/MyItemspage";
 import Header from "../layouts/Header";
 import MyRentalsPage from "../pages/MyRentals";
 import BookmarksPage from "../pages/Bookmarks_page";
+import ResetPasswordPage from "../pages/Reset_password";
+import ForgotPasswordPage from "../pages/Forgot_ password";
+import NotFoundPage from "../pages/NotFoundPage";
 
 
 const AdminLayout = () => {
@@ -37,10 +40,15 @@ const AppRouter = () => (
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<Homepage />} />
-      <Route path="*" element={<>404 Not Found</>} />
+      <Route path="*" element={<NotFoundPage/>} />
 
       <Route path="/signUp" element={<Signup_page />}></Route>
       <Route path="/signin" element={<Loginpage />}></Route>
+      <Route path="/reset-password/:resettoken" element={<ResetPasswordPage />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+
+
+
 
       <Route element={<AdminLayout />}>
         <Route

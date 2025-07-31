@@ -1,5 +1,6 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
+import { useBorrowRequests } from "../../hooks/useBorrow"; // Update path if needed
 
 const activeLinkClass =
   "text-blue-600 font-bold bg-blue-50 py-2 px-3 rounded-lg";
@@ -14,7 +15,7 @@ const adminLinks = [
   { to: "/admin/users", label: "Users" },
 ];
 
-const userLinks = [
+const baseUserLinks = [
   { to: "/browse", label: "Browse Items" },
   { to: "/my-items", label: "My Items" },
   { to: "/my-rentals", label: "My Rentals" },
@@ -28,27 +29,61 @@ const guestLinks = [
 ];
 
 export const NavLinks = ({ user, onLinkClick }) => {
+  const { requests } = useBorrowRequests();
+  const location = useLocation();
+  const [newRentalsCount, setNewRentalsCount] = useState(0);
+
+  // Update count based on pending requests
+  useEffect(() => {
+    if (requests && requests.length > 0) {
+      const pendingCount = requests.filter(
+        (r) => r.status === "pending" || r.status === "new"
+      ).length;
+      setNewRentalsCount(pendingCount);
+    }
+  }, [requests]);
+
+  // Clear count if we are on /my-rentals
+  useEffect(() => {
+    if (location.pathname === "/my-rentals") {
+      setNewRentalsCount(0);
+    }
+  }, [location]);
+
+  const handleLinkClick = () => {
+    if (onLinkClick) onLinkClick();
+  };
+
   let linksToRender;
 
   if (user?.role === "admin") {
     linksToRender = adminLinks;
   } else if (user) {
-    linksToRender = userLinks;
+    linksToRender = baseUserLinks.map((link) => {
+      if (link.to === "/my-rentals" && newRentalsCount > 0) {
+        return {
+          ...link,
+          label: (
+            <span className="relative inline-block">
+              My Rentals
+              <span className="absolute -top-2 -right-4 bg-red-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full shadow-md">
+                {newRentalsCount}
+              </span>
+            </span>
+          ),
+        };
+      }
+      return link;
+    });
   } else {
     linksToRender = guestLinks;
   }
-
-  const handleLinkClick = () => {
-    if (onLinkClick) {
-      onLinkClick();
-    }
-  };
 
   return (
     <nav className="flex flex-col md:flex-row items-center gap-4 text-lg md:text-sm md:gap-2">
       {linksToRender.map((link) => (
         <NavLink
-          key={link.to}
+          key={typeof link.label === "string" ? link.label : link.to}
           to={link.to}
           end={link.to === "/"}
           className={({ isActive }) =>
@@ -59,7 +94,6 @@ export const NavLinks = ({ user, onLinkClick }) => {
           {link.label}
         </NavLink>
       ))}
-      
     </nav>
   );
 };

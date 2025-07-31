@@ -21,6 +21,7 @@ import ItemDetailPage from "../pages/ItemsDetailPage";
 import MyItemsPage from "../pages/MyItemspage";
 import Header from "../layouts/Header";
 import MyRentalsPage from "../pages/MyRentals";
+import BookmarksPage from "../pages/Bookmarks_page";
 
 
 const AdminLayout = () => {
@@ -55,6 +56,8 @@ const AppRouter = () => (
 
       <Route path="/browse" element={<Browse_Items_page />} />
       <Route path="/my-items" element={<MyItemsPage />} />
+      <Route path="/bookmarks" element={<BookmarksPage />} />
+
 
       <Route path="/start-lending" element={<StartLendingPage />} />
       <Route path="/my-rentals" element={<MyRentalsPage/>}/>

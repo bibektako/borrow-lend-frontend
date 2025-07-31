@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
 import { getBackendImageUrl } from "../../../utils/backend-image"; // Adjust path if needed
 import { Link, useNavigate } from "react-router-dom";
-import { useCreateBorrowRequest } from "../../hooks/useBorrow"
+import { useCreateBorrowRequest } from "../../hooks/useBorrow";
 import { AuthContext } from "../../auth/Authprovider";
 import { MapPin, Star, Heart, CheckCircle, UserCheck } from "lucide-react";
+import { useBookmarks } from "../../hooks/useBookmarks"; // You already had this - great!
 
 // --- Single Item Card Component ---
 const SingleItemCard = ({ item }) => {
@@ -14,19 +15,31 @@ const SingleItemCard = ({ item }) => {
     category,
     borrowingPrice,
     imageUrls,
-    location,
-    rating = 0, // Default to 0 if not provided
-    reviewCount = 0, // Default to 0
-    status = 'available', // Default status
-    owner,
+    owner, // We need the full owner object for the ID check
+    rating = 0,
+    reviewCount = 0,
+    status = 'available',
   } = item;
 
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const { mutate: createBorrowRequest, isPending } = useCreateBorrowRequest();
-
-  // Determine if the current logged-in user is the owner of the item
+  
+  // These are the hooks and variables for the bookmark functionality
+  const { toggleBookmark, isBookmarked, isToggling } = useBookmarks();
   const isOwner = user && owner?._id === user._id;
+  const isItemBookmarked = isBookmarked(_id);
+
+  // This function now correctly uses the `toggleBookmark` mutation
+  const handleWishlistClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!user) {
+      navigate("/signin");
+      return;
+    }
+    toggleBookmark(_id);
+  };
 
   const handleBorrowClick = (e) => {
     e.preventDefault();
@@ -35,7 +48,6 @@ const SingleItemCard = ({ item }) => {
       navigate("/signin");
       return;
     }
-    // Do not allow borrowing if the item is unavailable or if the user is the owner
     if (status !== 'available' || isOwner) return;
     createBorrowRequest(_id);
   };
@@ -78,7 +90,7 @@ const SingleItemCard = ({ item }) => {
             loading="lazy"
             onError={(e) => { e.currentTarget.src = "https://placehold.co/400x400/e2e8f0/cbd5e0?text=Image+Not+Found"; }}
           />
-          {/* Top-right badges and buttons */}
+          {/* Top-right badges */}
           <div className="absolute top-3 right-3 flex flex-col gap-2">
             {isOwner && (
                 <div className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
@@ -87,11 +99,23 @@ const SingleItemCard = ({ item }) => {
             )}
             {!isOwner && getStatusPill()}
           </div>
-          {/* Wishlist Button */}
-          <button className="absolute top-3 left-3 w-8 h-8 flex items-center justify-center rounded-full bg-white/80 backdrop-blur-sm text-gray-700 hover:bg-white hover:text-red-500 transition-colors"
-            onClick={(e) => { e.preventDefault(); alert('Added to wishlist!'); }}>
-            <Heart size={16} />
-          </button>
+
+          {/* === UPDATED WISHLIST BUTTON === */}
+          {!isOwner && (
+            <button
+              onClick={handleWishlistClick}
+              disabled={isToggling}
+              className={`absolute top-3 left-3 w-9 h-9 flex items-center justify-center rounded-full bg-white/80 backdrop-blur-sm transition-colors duration-200 disabled:opacity-50
+                ${isItemBookmarked ? 'text-red-500' : 'text-gray-600 hover:text-red-500'}
+              `}
+              aria-label="Add to wishlist"
+            >
+              <Heart 
+                size={18} 
+                fill={isItemBookmarked ? 'currentColor' : 'none'} 
+              />
+            </button>
+          )}
         </div>
 
         {/* Content Container */}
@@ -101,7 +125,7 @@ const SingleItemCard = ({ item }) => {
 
           <div className="flex items-center text-gray-500 mt-2 text-sm">
             <MapPin className="w-4 h-4 mr-1.5 flex-shrink-0 text-gray-400" />
-            <span className="truncate">{location || "Not specified"}</span>
+            <span className="truncate">{owner?.location || "Not specified"}</span>
           </div>
 
           <div className="flex items-center mt-3">
@@ -111,7 +135,6 @@ const SingleItemCard = ({ item }) => {
             </p>
           </div>
 
-          {/* This spacer pushes the footer to the bottom */}
           <div className="flex-grow"></div> 
 
           {/* Card Footer */}
@@ -135,8 +158,6 @@ const SingleItemCard = ({ item }) => {
 };
 
 
-// --- Item Grid Component ---
-// This component receives an array of items and maps them to the SingleItemCard.
 const ItemCard = ({ items }) => {
   if (!items || items.length === 0) {
     return <p className="col-span-full text-center text-gray-500">No items found.</p>;

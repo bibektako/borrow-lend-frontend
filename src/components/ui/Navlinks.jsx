@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { useBorrowRequests } from "../../hooks/useBorrow"; // Update path if needed
+import { useBorrowRequests } from "../../hooks/useBorrow"; 
+import { useBookmarks } from "../../hooks/useBookmarks";
 
 const activeLinkClass =
   "text-blue-600 font-bold bg-blue-50 py-2 px-3 rounded-lg";
@@ -16,6 +17,7 @@ const adminLinks = [
 ];
 
 const baseUserLinks = [
+  { to: "/bookmarks", label: "Bookmarked" },
   { to: "/browse", label: "Browse Items" },
   { to: "/my-items", label: "My Items" },
   { to: "/my-rentals", label: "My Rentals" },
@@ -30,6 +32,7 @@ const guestLinks = [
 
 export const NavLinks = ({ user, onLinkClick }) => {
   const { requests } = useBorrowRequests();
+  const { bookmarkCount } = useBookmarks(); // 3. Get the bookmark count
   const location = useLocation();
   const [newRentalsCount, setNewRentalsCount] = useState(0);
 
@@ -68,6 +71,19 @@ export const NavLinks = ({ user, onLinkClick }) => {
               My Rentals
               <span className="absolute -top-2 -right-4 bg-red-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full shadow-md">
                 {newRentalsCount}
+              </span>
+            </span>
+          ),
+        };
+      }
+      if (link.to === "/bookmarks" && bookmarkCount > 0) {
+        return {
+          ...link,
+          label: (
+            <span className="relative inline-block">
+              Bookmarked
+              <span className="absolute -top-2 -right-4 bg-red-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full shadow-md">
+                {bookmarkCount}
               </span>
             </span>
           ),

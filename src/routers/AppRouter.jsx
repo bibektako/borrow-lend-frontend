@@ -29,7 +29,6 @@ const AdminLayout = () => {
     <div className="flex flex-col min-h-screen bg-gray-100 font-sans">
       <Header />
       <Outlet />{" "}
-      {/* This renders the matched child route component (e.g., CategoryPage) */}
     </div>
   );
 };

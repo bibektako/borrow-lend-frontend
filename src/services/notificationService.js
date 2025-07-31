@@ -1,43 +1,23 @@
 import {
-  createBorrowRequestApi,
-  getBorrowRequestsApi,
-  updateBorrowRequestApi,
-} from "../api/borrowAPI";
+  getNotificationsApi,
+  markNotificationsAsReadApi} from "../api/notificationApi"
 
-/**
- * @desc    Service function to create a borrow request.
- */
-export const createBorrowRequestService = async (itemId) => {
+
+export const getNotificationsService = async () => {
   try {
-    // The token is automatically attached by your axios interceptor,
-    // but passing it ensures your hook has the dependency if needed.
-    const response = await createBorrowRequestApi(itemId);
+    const response = await getNotificationsApi();
     return response.data;
   } catch (error) {
-    throw error.response?.data || { message: "Failed to send borrow request." };
+    throw error.response?.data || { message: "Failed to fetch notifications" };
   }
 };
 
-/**
- * @desc    Service function to get all of the user's borrow requests.
- */
-export const getBorrowRequestsService = async () => {
-  try {
-    const response = await getBorrowRequestsApi();
-    return response.data;
-  } catch (error) {
-    throw error.response?.data || { message: "Failed to fetch rental data." };
-  }
-};
 
-/**
- * @desc    Service function to update a borrow request.
- */
-export const updateBorrowRequestService = async (requestId, status) => {
+export const markNotificationsAsReadService = async () => {
   try {
-    const response = await updateBorrowRequestApi(requestId, status);
+    const response = await markNotificationsAsReadApi();
     return response.data;
   } catch (error) {
-    throw error.response?.data || { message: "Failed to update request." };
+    throw error.response?.data || { message: "Failed to mark notifications as read" };
   }
 };

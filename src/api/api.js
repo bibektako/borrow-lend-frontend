@@ -4,7 +4,6 @@ const API_URL =
   `${import.meta.env.VITE_API_BASE_URL}` + "/api" ||
   "http://localhost:5050/api";
 
-console.log("API Service is configured to use Base URL:", API_URL);
 
 const instance = axios.create({
   baseURL: API_URL,

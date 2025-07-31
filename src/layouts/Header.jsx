@@ -1,12 +1,14 @@
-import { useContext, useState } from "react";
-// 1. ADD 'Heart' to this import line to fix the error
-import { Search, Menu, X, Heart } from "lucide-react";
+import { useContext, useState, useEffect, useRef } from "react";
+// 1. Import the Bell icon
+import { Search, Menu, X, Bell } from "lucide-react";
 import { useNavigate, NavLink } from "react-router-dom";
 import logoImage from "../assets/images/logo.png";
 import { AuthContext } from "../auth/Authprovider";
 import { NavLinks } from "../components/ui/Navlinks";
 import { ProfileDropdown } from "../components/ui/ProfileDropdown";
-import { useBookmarks } from "../hooks/useBookmarks";
+// 2. Import the hooks and components for the notification system
+import { useNotifications } from "../hooks/usenotification"
+import NotificationPanel from "../components/ui/NotificationPanel";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -14,8 +16,32 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Get the live count of bookmarked items from our custom hook
-  const { bookmarkCount } = useBookmarks();
+  const { notifications, unreadCount, markAsRead } = useNotifications();
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const panelRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (panelRef.current && !panelRef.current.contains(event.target)) {
+        setIsPanelOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [panelRef]);
+
+  const handleBellClick = () => {
+    const newPanelState = !isPanelOpen;
+    setIsPanelOpen(newPanelState);
+
+    if (newPanelState && unreadCount > 0) {
+      setTimeout(() => {
+        markAsRead();
+      }, 2000);
+    }
+  };
 
   const handleSearch = (e) => {
     if (e.key === "Enter" && searchTerm.trim() !== "") {
@@ -46,24 +72,17 @@ const Header = () => {
 
   return (
     <header className="relative flex items-center justify-between gap-6 px-6 py-3 bg-white shadow-md">
-      {/* --- Left Side: Logo --- */}
-      <NavLink
-        to="/"
-        className="flex items-center gap-2 flex-shrink-0 z-10"
-        onClick={() => setIsMenuOpen(false)}
-      >
+      <NavLink to="/" className="flex items-center gap-2 flex-shrink-0 z-10" onClick={() => setIsMenuOpen(false)}>
         <img src={logoImage} alt="Logo" className="w-9 h-9" />
         <span className="text-xl font-bold text-slate-800 hidden lg:block">
           BorrowLend
         </span>
       </NavLink>
 
-      {/* --- Center: Main Navigation --- */}
-      <div className="flex-1 justify-center hidden md:flex">
+      <div className="flex-1 justify-center hidden md:flex items-center gap-8">
         <NavLinks user={user} />
       </div>
 
-      {/* --- Right Side: Search, Auth, and Bookmarks --- */}
       <div className="hidden md:flex items-center gap-4 flex-shrink-0">
         <div className="relative">
           <input
@@ -78,25 +97,32 @@ const Header = () => {
         </div>
 
         {user ? (
-          // === Logged-in User View (Bookmarks and Profile) ===
-          <div className="flex items-center gap-5">
-            {/* 2. THIS IS THE NEW "BOOKMARKED" TEXT LINK */}
-            <NavLink
-              to="/bookmarks"
-              className="relative flex items-center gap-1.5 text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors"
-            >
-              <Heart size={16} />
-              <span>Bookmarked</span>
-              {bookmarkCount > 0 && (
-                <span className="absolute top-[-5px] right-[-10px] flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
-                  {bookmarkCount}
-                </span>
+          <div className="flex items-center gap-4">
+            <div className="relative" ref={panelRef}>
+              <button
+                onClick={handleBellClick}
+                className="relative p-2 text-slate-600 hover:text-blue-600 rounded-full hover:bg-slate-100 transition-colors"
+                aria-label="Open notifications"
+              >
+                <Bell size={20} />
+                {unreadCount > 0 && (
+                  <span className="absolute top-1.5 right-1.5 block h-2.5 w-2.5 rounded-full bg-red-500 border-2 border-white"></span>
+                )}
+              </button>
+              
+              {isPanelOpen && (
+                <NotificationPanel 
+                  notifications={notifications}
+                  onClose={() => setIsPanelOpen(false)}
+                />
               )}
-            </NavLink>
+            </div>
+
+            {/* Profile Dropdown */}
             <ProfileDropdown user={user} onLogout={handleLogout} />
           </div>
         ) : (
-          // === Guest View (Sign In and Register) ===
+          // --- Guest View ---
           <div className="flex items-center gap-2">
             <button
               className="px-4 py-2 text-sm font-medium text-slate-700 hover:text-blue-600"
@@ -121,7 +147,7 @@ const Header = () => {
         </button>
       </div>
 
-      {/* Mobile Menu Content (No changes needed here) */}
+      {/* Mobile Menu Panel */}
       {isMenuOpen && (
         <div className="absolute top-0 left-0 w-full h-screen bg-white md:hidden z-0 pt-20">
           <div className="flex flex-col items-center p-4 gap-6">

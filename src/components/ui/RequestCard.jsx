@@ -2,9 +2,24 @@ import React from "react";
 import { useUpdateBorrowRequest } from "../../hooks/useBorrow";
 import { getBackendImageUrl } from "../../../utils/backend-image";
 import { Link } from "react-router-dom";
+import { AlertTriangle } from "lucide-react"; // For a nice error icon
 
 const RequestCard = ({ request, isOwner }) => {
   const { mutate: updateStatus, isPending } = useUpdateBorrowRequest();
+
+  if (!request.item) {
+    return (
+      <div className="bg-red-50 p-4 rounded-lg shadow-md border border-red-200 flex items-center gap-4">
+        <AlertTriangle className="w-8 h-8 text-red-500 flex-shrink-0" />
+        <div>
+          <h3 className="font-bold text-red-800">Invalid Request</h3>
+          <p className="text-sm text-red-700">The item associated with this request has been deleted.</p>
+        </div>
+      </div>
+    );
+  }
+  // --- END OF FIX ---
+
 
   const handleUpdate = (status) => {
     updateStatus({ requestId: request._id, status });
@@ -19,6 +34,8 @@ const RequestCard = ({ request, isOwner }) => {
   };
 
   const renderActionButtons = () => {
+    // This logic is already good and doesn't need to change.
+    // ...
     // --- Logic for Item Owners ---
     if (isOwner) {
       if (request.status === "pending") {
@@ -101,18 +118,20 @@ const RequestCard = ({ request, isOwner }) => {
     );
   };
 
+  // The rest of the component can now safely assume `request.item` exists.
   return (
     <div className="bg-white p-4 rounded-lg shadow-md border flex flex-col sm:flex-row gap-4">
       <img
-        src={getBackendImageUrl(request.item.imageUrls[0])}
-        alt={request.item.name}
+        // For extra safety, we can still use optional chaining here.
+        src={getBackendImageUrl(request.item?.imageUrls?.[0])}
+        alt={request.item?.name || 'Item image'}
         className="w-full sm:w-32 h-32 object-cover rounded-md"
       />
       <div className="flex-grow">
         <div className="flex justify-between items-start">
           <div>
             <Link
-              to={`/item/${request.item._id}`}
+              to={`/item/${request.item._id}`} // This is now safe because of the check at the top
               className="font-bold text-lg text-gray-800 hover:underline"
             >
               {request.item.name}
@@ -124,7 +143,7 @@ const RequestCard = ({ request, isOwner }) => {
             </p>
           </div>
           <span
-            className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
+            className={`text-xs font-semibold px-2.5 py-1 rounded-full capitalize ${
               statusStyles[request.status] || "bg-gray-100 text-gray-800"
             }`}
           >

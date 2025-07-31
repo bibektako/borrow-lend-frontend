@@ -11,12 +11,11 @@ const MyItemsPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [editingItem, setEditingItem] = useState(null); // Can be null for 'Add' mode
+    const [editingItem, setEditingItem] = useState(null); 
 
     const fetchData = useCallback(async () => {
         try {
             setIsLoading(true);
-            // Fetch both items and categories in parallel
             const [itemsResponse, categoriesResponse] = await Promise.all([
                 getMyItemsApi(),
                 getCategoriesApi()
@@ -37,7 +36,7 @@ const MyItemsPage = () => {
     }, [fetchData]);
 
     const handleOpenModal = (item = null) => {
-        setEditingItem(item); // If item is null, it's 'Add' mode
+        setEditingItem(item); 
         setIsModalOpen(true);
     };
 
@@ -48,14 +47,14 @@ const MyItemsPage = () => {
 
     const handleSaveSuccess = () => {
         handleCloseModal();
-        fetchData(); // Refresh all data after a successful save
+        fetchData(); 
     };
 
     const handleDeleteItem = async (itemId) => {
         if (window.confirm("Are you sure you want to delete this item? This action cannot be undone.")) {
             try {
                 await deleteItemApi(itemId);
-                fetchData(); // Refresh data after delete
+                fetchData(); 
             } catch (err) {
                 console.error("Error deleting item:", err);
                 setError("Failed to delete the item. Please try again.");

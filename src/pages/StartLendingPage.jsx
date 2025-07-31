@@ -4,10 +4,10 @@ import { ArrowLeft } from 'lucide-react';
 import Header from '../layouts/Header';
 
 import ItemDetailsForm from '../components/lending/itemDetailsForm';
-import LendingTips from '../components/lending/LendingTips'; // Adjust path
+import LendingTips from '../components/lending/LendingTips';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { AuthContext } from '../auth/Authprovider'; // Adjust path
+import { AuthContext } from '../auth/Authprovider'; 
 
 const StartLendingPage = () => {
   const { user } = useContext(AuthContext);

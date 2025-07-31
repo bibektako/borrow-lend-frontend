@@ -4,9 +4,7 @@ import { AuthContext } from "../auth/Authprovider";
 import { getBackendImageUrl } from "../../utils/backend-image";
 import { Link } from "react-router-dom";
 
-// --- RequestCard Component ---
 const RequestCard = ({ request, isOwner }) => {
-  // Uses the optimistic update hook
   const { mutate: updateStatus, isPending } = useUpdateBorrowRequest();
 
   const handleUpdate = (status) => {
@@ -22,7 +20,6 @@ const RequestCard = ({ request, isOwner }) => {
   };
 
   const renderActionButtons = () => {
-    // --- Logic for Item Owners ---
     if (isOwner) {
       if (request.status === 'pending') {
         return (
@@ -42,7 +39,6 @@ const RequestCard = ({ request, isOwner }) => {
       }
     }
     
-    // --- Logic for Borrowers (with Cancel button) ---
     if (!isOwner) {
       if (request.status === 'pending') {
         return (
@@ -91,20 +87,19 @@ const RequestCard = ({ request, isOwner }) => {
   );
 };
 
-// --- Main Page Component ---
 const MyRentalsPage = () => {
   const { user } = useContext(AuthContext);
   const { requests, isLoading, error, refetch } = useBorrowRequests();
 
-  // This useEffect can sometimes cause rapid refetching. 
-  // It's often better to rely on React Query's built-in refetching mechanisms.
-  // You can keep it if you have a specific need for it on every render.
   useEffect(() => { refetch(); }, [refetch]);
 
   const { outgoingRequests, incomingRequests } = useMemo(() => {
+    if (!requests) {
+        return { outgoingRequests: [], incomingRequests: [] };
+    }
     return {
-      outgoingRequests: requests.filter(req => req.borrower._id === user?._id),
-      incomingRequests: requests.filter(req => req.owner._id === user?._id),
+      outgoingRequests: requests.filter(req => req.item && req.borrower._id === user?._id),
+      incomingRequests: requests.filter(req => req.item && req.owner._id === user?._id),
     };
   }, [requests, user]);
 

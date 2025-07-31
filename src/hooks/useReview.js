@@ -12,9 +12,9 @@ import { AuthContext } from "../auth/Authprovider";
 
 export const useReviews = (itemId) => {
   const { data, isLoading, error } = useQuery({
-    queryKey: ["reviews", itemId], // Unique key for this item's reviews
+    queryKey: ["reviews", itemId], 
     queryFn: () => getReviewsService(itemId),
-    enabled: !!itemId, // Only run the query if itemId is available
+    enabled: !!itemId, 
   });
 
   return {

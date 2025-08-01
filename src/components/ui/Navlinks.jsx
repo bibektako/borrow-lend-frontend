@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { useBorrowRequests } from "../../hooks/useBorrow"; 
+import { useBorrowRequests } from "../../hooks/useBorrow";
 import { useBookmarks } from "../../hooks/useBookmarks";
 
 const activeLinkClass =
@@ -26,13 +26,15 @@ const baseUserLinks = [
 
 const guestLinks = [
   { to: "/", label: "Home" },
+  { to: "/browse", label: "Browse" },
+
   { to: "/about", label: "About Us" },
   { to: "/how-it-works", label: "How It Works" },
 ];
 
 export const NavLinks = ({ user, onLinkClick }) => {
   const { requests } = useBorrowRequests();
-  const { bookmarkCount } = useBookmarks(); 
+  const { bookmarkCount } = useBookmarks();
   const location = useLocation();
   const [newRentalsCount, setNewRentalsCount] = useState(0);
 
@@ -45,7 +47,6 @@ export const NavLinks = ({ user, onLinkClick }) => {
     }
   }, [requests]);
 
-  // Clear count if we are on /my-rentals
   useEffect(() => {
     if (location.pathname === "/my-rentals") {
       setNewRentalsCount(0);

@@ -14,9 +14,8 @@ const ForgotPasswordPage = () => {
     try {
       await forgotPasswordApi({ email });
       toast.success("If an account with that email exists, a reset link has been sent.");
-      setIsSubmitted(true); // Show a success message
+      setIsSubmitted(true); 
     } catch (error) {
-      // For security, show a generic success message even on failure
       toast.success("If an account with that email exists, a reset link has been sent.");
       setIsSubmitted(true);
     } finally {

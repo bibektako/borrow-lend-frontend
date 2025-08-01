@@ -85,7 +85,6 @@ const MyItemsPage = () => {
 
     return (
         <div className="w-full">
-            <Header/>
             <div className="flex justify-between items-center bg-white p-4 rounded-lg shadow-sm mb-8 border">
                 <div>
                     <h1 className="text-2xl font-bold text-gray-900">My Listed Items</h1>

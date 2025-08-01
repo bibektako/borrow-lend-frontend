@@ -1,14 +1,18 @@
 import React, { useContext } from 'react'
 import { AuthContext } from '../auth/Authprovider'
-import { Outlet } from 'react-router-dom'
+import { Navigate, Outlet } from 'react-router-dom'
 
 export default function GuestRoute() {
-    const { user, loading} = useContext(AuthContext)
+    const { user, loading } = useContext(AuthContext)
 
-    if(loading) return <>loading</>
+    if (loading) return <div>Loading...</div>; 
 
-    if(user?.role == "normal")return <Navigate to="/"/>
-
-    if(user) return <Navigate to="/"/>
-  return <Outlet/>
+    if (user) {
+        if (user.role === 'admin') {
+            return <Navigate to="/admin/dashboard" />;
+        }
+        return <Navigate to="/browse" />;
+    }
+    
+    return <Outlet />;
 }

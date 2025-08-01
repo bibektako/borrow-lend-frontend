@@ -5,6 +5,7 @@ import FilterSidebar from "../components/user/Filter_Sidebar_component";
 import ItemCard from "../components/user/ItemsCard";
 import { useItems } from "../hooks/useItem";
 import { SlidersHorizontal, X } from "lucide-react";
+import Footer from "../layouts/Footer";
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   if (totalPages <= 1) {
@@ -91,7 +92,6 @@ export default function Browse_Items_page() {
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      <Header />
       <div className="w-full max-w-screen-xl mx-auto flex flex-col lg:flex-row pt-6 px-4">
         <aside className="hidden lg:block w-full lg:w-1/4 xl:w-1/5 lg:pr-8">
           <div className="sticky top-24">
@@ -181,6 +181,7 @@ export default function Browse_Items_page() {
           )}
         </main>
       </div>
+      <Footer/>
     </div>
   );
 }

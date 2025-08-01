@@ -7,10 +7,10 @@ import Footer from "../layouts/Footer";
 const HomePage = () => {
   return (
     <div className="bg-[#f9fbfd] min-h-screen">
-      <Header />
+      
       <HeroSection />
       <Categories />
-      <Footer/>
+    
     </div>
   );
 };

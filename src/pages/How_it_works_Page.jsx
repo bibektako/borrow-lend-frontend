@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Send, CheckCircle, List, UserCheck, Repeat, HelpCircle, ChevronDown } from 'lucide-react';
 
-// Sub-component for the alternating step layout
 const Step = ({ icon, number, title, children, reverse = false }) => (
   <div className={`flex flex-col md:flex-row items-center gap-12 ${reverse ? 'md:flex-row-reverse' : ''} animate-fade-in-up`}>
     <div className="flex-1 text-center md:text-left">
@@ -19,7 +18,6 @@ const Step = ({ icon, number, title, children, reverse = false }) => (
 const HowItWorksPage = () => {
   return (
     <div className="bg-white">
-      {/* --- Hero Section --- */}
       <section className="text-center pt-24 pb-16 bg-slate-50 border-b">
         <div className="container mx-auto px-6">
           <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 tracking-tight animate-fade-in-up">
@@ -50,7 +48,6 @@ const HowItWorksPage = () => {
         </Step>
       </section>
 
-      {/* --- FAQ Section --- */}
       <section className="bg-slate-50 py-20 lg:py-28 border-y">
         <div className="container mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-16">
@@ -59,7 +56,6 @@ const HowItWorksPage = () => {
             <p className="mt-3 text-lg text-gray-600">Have questions? We have answers.</p>
           </div>
           <div className="max-w-3xl mx-auto space-y-4">
-            {/* Note: For a real app, you would add state to toggle the answers open/closed */}
             <div className="p-6 bg-white border rounded-lg">
               <h4 className="font-semibold text-gray-800 flex justify-between items-center">Is my item protected? <ChevronDown/></h4>
               <p className="text-gray-600 mt-2">Yes! We offer an optional Lender Guarantee for peace of mind, and our community is built on a foundation of user reviews and trust.</p>

@@ -53,7 +53,6 @@ const ItemDetailPage = () => {
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      <Header />
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
       <main className="container mx-auto px-4 py-8">
         <div className="mb-6">

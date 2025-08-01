@@ -26,7 +26,6 @@ const StartLendingPage = () => {
   if (!user) {
     return (
       <div className="min-h-screen bg-gray-50 flex flex-col">
-        <Header />
         <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
         <main className="flex-1 flex items-center justify-center">
           <p className="text-gray-600 animate-pulse">Checking authentication...</p>

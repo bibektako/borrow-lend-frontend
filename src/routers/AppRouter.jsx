@@ -25,6 +25,7 @@ import ItemVerificationPage from "../pages/admin/ItemVerificationPage";
 
 import NormalUserRoute from "./NormalUserRoutes";
 import GuestRoute from "./GuestRoute";
+import AuthPage from "../pages/Auth_Page";
 
 const MainLayout = () => (
   <div className="flex flex-col min-h-screen bg-slate-50">
@@ -67,8 +68,8 @@ const AppRouter = () => (
 
 
       <Route element={<GuestRoute />}>
-        <Route path="/signin" element={<Loginpage />} />
-        <Route path="/signup" element={<Signup_page />} />
+        <Route path="/signin" element={<AuthPage />} />
+        <Route path="/signup" element={<AuthPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password/:resettoken" element={<ResetPasswordPage />} />
       </Route>

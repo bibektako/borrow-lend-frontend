@@ -38,7 +38,6 @@ const StartLendingPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Header />
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
       
       <main className="flex-1 container mx-auto px-4 py-8">

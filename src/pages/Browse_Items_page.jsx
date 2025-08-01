@@ -181,7 +181,6 @@ export default function Browse_Items_page() {
           )}
         </main>
       </div>
-      <Footer/>
     </div>
   );
 }

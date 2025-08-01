@@ -1,37 +1,46 @@
-import readingImg from "../../assets/borrowLend.png";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import Lottie from 'lottie-react';
+import heroAnimation from '../../assets/animation/animation.json'; 
+
 const HeroSection = () => {
   return (
-    <section className="flex flex-col lg:flex-row items-center justify-between px-8 py-16 max-w-7xl mx-auto">
-      <div className="max-w-xl">
-        <h2 className="text-sm text-blue-600 font-medium mb-2">Borrowlend</h2>
-        <h1 className="text-4xl font-bold text-gray-900 mb-4 leading-tight">
-          Share more. Spend less. <br />
-          Lend or borrow with trust.
-        </h1>
-        <p className="text-gray-600 mb-6">
-          Join our community of lenders and borrowers to save money and
-          resources.
-        </p>
-        <div className="flex space-x-4">
-          <Link to="start-lending">
-            <button className="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700">
-              Start Lending
-            </button>
-          </Link>
+    <section className="bg-white">
+      <div className="container mx-auto grid lg:grid-cols-2 gap-12 items-center px-6 py-20 lg:py-28">
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+          className="text-center lg:text-left"
+        >
+          <h1 className="text-4xl lg:text-6xl font-extrabold text-slate-900 tracking-tighter">
+            Don't Buy It.
+            <br />
+            <span className="bg-gradient-to-r from-blue-600 to-cyan-400 bg-clip-text text-transparent animate-background-pan bg-[200%_auto]">
+              Just Borrow It.
+            </span>
+          </h1>
+          <p className="mt-6 text-lg text-slate-600 max-w-lg mx-auto lg:mx-0">
+            Access thousands of items from your neighbors and local community. Save money, reduce waste, and connect with people around you.
+          </p>
+          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+            <Link to="/browse" className="bg-blue-600 text-white font-semibold py-3 px-8 rounded-lg shadow-lg hover:bg-blue-700 transform hover:scale-105 transition-all">
+              Start Browsing
+            </Link>
+            <Link to="/start-lending" className="bg-white text-slate-700 font-semibold py-3 px-8 rounded-lg border border-slate-300 hover:bg-slate-100 transform hover:scale-105 transition-all">
+              Become a Lender
+            </Link>
+          </div>
+        </motion.div>
 
-          <Link to="browse">
-            <button className="border border-blue-600 text-blue-600 px-5 py-2 rounded-md hover:bg-blue-50">
-              Browse Items
-            </button>
-          </Link>
-        </div>
-      </div>
-      <div className="mt-10 lg:mt-10">
-        <img src={readingImg} alt="Borrow icon" className="w-67 h-64" />
-        <p className="text-center text-blue-600 mt-4">
-          Borrow and lend items in your community
-        </p>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
+        >
+          <Lottie animationData={heroAnimation} loop={true} className="w-full max-w-md mx-auto" />
+        </motion.div>
       </div>
     </section>
   );

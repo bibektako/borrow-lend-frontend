@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Import your reusable form components
 import LoginForm from '../components/auth/LoginForm';
 import SignupForm from '../components/auth/SignupForm';
 
-// Import your visual assets
 import AuthImage from '../assets/images/auth image.png';
 import logo from '../assets/images/logo.png';
 
@@ -50,7 +47,6 @@ const AuthPage = () => {
   return (
     <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2 font-sans">
       
-      {/* --- 1. THE VISUAL BRANDING IS NOW ON THE LEFT --- */}
       <div className="hidden lg:block relative overflow-hidden">
         <motion.img 
           initial={{ scale: 1.1 }}
@@ -76,7 +72,6 @@ const AuthPage = () => {
         </motion.div>
       </div>
 
-      {/* --- 2. THE ANIMATED FORMS ARE NOW ON THE RIGHT --- */}
       <div className="flex flex-col items-center justify-center p-6 sm:p-8 lg:p-12 bg-white">
         <div className="w-full max-w-md">
           <motion.div 

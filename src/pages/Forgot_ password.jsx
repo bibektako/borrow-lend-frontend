@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast, Toaster } from 'react-hot-toast';
-import { forgotPasswordApi } from '../api/authAPI'; // We'll need to create this
+import { forgotPasswordApi } from '../api/authAPI'; 
 
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState('');

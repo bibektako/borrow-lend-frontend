@@ -1,4 +1,10 @@
-import { BrowserRouter, Routes, Outlet, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Outlet,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
 import Header from "../layouts/Header";
 import Footer from "../layouts/Footer";
@@ -33,20 +39,18 @@ const MainLayout = () => (
     <main className="flex-grow">
       <Outlet />
     </main>
-    <Footer/>
+    <Footer />
   </div>
 );
 
 const AdminLayout = () => (
-    <div className="flex flex-col min-h-screen bg-gray-100 font-sans">
-      <Header />
-      <div className="flex-grow">
-        <Outlet />
-      </div>
+  <div className="flex flex-col min-h-screen bg-gray-100 font-sans">
+    <Header />
+    <div className="flex-grow">
+      <Outlet />
     </div>
+  </div>
 );
-
-
 
 const AppRouter = () => (
   <BrowserRouter>
@@ -66,22 +70,25 @@ const AppRouter = () => (
         </Route>
       </Route>
 
-
       <Route element={<GuestRoute />}>
         <Route path="/signin" element={<AuthPage />} />
         <Route path="/signup" element={<AuthPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/reset-password/:resettoken" element={<ResetPasswordPage />} />
+        <Route
+          path="/reset-password/:resettoken"
+          element={<ResetPasswordPage />}
+        />
       </Route>
 
-
       <Route element={<AdminLayout />}>
-        <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+        <Route
+          path="/admin"
+          element={<Navigate to="/admin/categories" replace />}
+        />
         <Route path="/admin/categories" element={<CategoryPage />} />
         <Route path="/admin/items" element={<ItemPage />} />
         <Route path="/admin/verification" element={<ItemVerificationPage />} />
       </Route>
-
 
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
